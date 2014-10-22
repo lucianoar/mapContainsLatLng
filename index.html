@@ -1,0 +1,67 @@
+<html>
+	<head>
+		<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+		<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+		<script src="http://deziro.com.ar/maps.google.polygon.containsLatLng.js"></script>
+		<script>
+			function gordo_puto()
+				/*
+				Si te fijás, esto es medio al pedo, porque directamente pones un listener al click del polygon 'region' y sabés que está dentro.
+				Pero el ejemplo sirve si tenés el dato latLng de donde haces click (o de donde sea que se te ocurra sacar ese dato) y está dentro de la región.
+				Gordo puto. Invitame a andar en bici.
+				   __o
+				 _`\<,_
+				(_)/ (_)
+				*/
+			{
+				console.log('El gordo se la come!');
+					
+				var info = document.getElementById('info')
+				var mapOptions = 
+				{
+					center: { lng: -68.84033203125, lat: -32.88420028540546},
+					zoom: 8
+				};
+
+				var map = new google.maps.Map(document.getElementById('map'),mapOptions);
+
+				//Coordenadas del bicho
+				var coords = 
+				[
+					new google.maps.LatLng(-32.8288270940891,-69.9169921875), 
+					new google.maps.LatLng(-32.2313896627376,-69.0655517578125), 
+					new google.maps.LatLng(-32.7041111444074,-67.708740234375), 
+					new google.maps.LatLng(-33.4176873573349,-67.8900146484375),
+					new google.maps.LatLng(-33.6923523472373,-69.01611328125), 
+					new google.maps.LatLng(-33.4314413355753,-69.9114990234375), 
+					new google.maps.LatLng(-33.2111164724168,-69.2578125)
+				]
+				
+				var region = new google.maps.Polygon(
+				{
+					path: coords,
+					fillColor: "#ccc",
+					fillOpacity: 0.7,
+					editable: true
+				})
+				
+				region.setMap(map)
+				
+				mapClick = function(ev)
+				{
+					region.containsLatLng(ev.latLng) ? info.innerText = 'Dentro del bicho' : info.innerText = 'Fuera del bicho'
+				}
+
+
+				google.maps.event.addDomListener(map, 'click', mapClick);
+				google.maps.event.addDomListener(region, 'click', mapClick);
+
+			}
+			google.maps.event.addDomListener(window, 'load', gordo_puto);
+		</script>
+	<head>
+	<body>
+		<div id="map" style="width:100%;height:100%;background:#CCC;"></div>
+		<div id="info" style="font-family:sans;text-align:center;width:100%;background:#121212;color:white;height:1.2em;position:relative;bottom:1.2em">Gordo trolo</div>
+	</body>
+</html>
